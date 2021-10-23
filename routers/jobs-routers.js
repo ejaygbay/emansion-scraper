@@ -8,6 +8,6 @@ routers.post('/job', jobControllers.createJob);
 
 routers.patch('/job', jobControllers.editJob);
 
-// routers
+routers.delete('/job', jobControllers.deleteJob);
 
 module.exports = routers;
