@@ -1,5 +1,12 @@
-const createJob = (req, res) => {
-    res.send("Job Created");
+const getAPIDocumentation = (req, res) => {
+    res.send("API Documentation");
 }
 
-module.exports = createJob;
+const createJob = (req, res) => {
+    res.send("Create Job");
+}
+
+module.exports = {
+    getAPIDocumentation,
+    createJob
+}
