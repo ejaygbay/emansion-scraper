@@ -6,4 +6,8 @@ routers.get('/', jobControllers.getAPIDocumentation);
 
 routers.post('/job', jobControllers.createJob);
 
+routers.patch('/job', jobControllers.editJob);
+
+// routers
+
 module.exports = routers;
