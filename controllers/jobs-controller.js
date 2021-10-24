@@ -7,11 +7,11 @@ const createJob = (req, res) => {
 }
 
 const editJob = (req, res) => {
-    res.send("Create Job");
+    res.send("Edit Job");
 }
 
 const deleteJob = (req, res) => {
-    res.send("Create Job");
+    res.send("Delete Job");
 }
 
 module.exports = {
