@@ -9,7 +9,7 @@ const EMANSION_DOMAIN = "https://www.emansion.gov.lr/";
 let API_URL = "https://job-seeking-api.herokuapp.com/";
 const URL = EMANSION_DOMAIN + "2content_a.php?sub=82&related=30&third=82&pg=sp";
 const MILLISECOND_IN_DAY = 86400000;
-// const MILLISECOND_IN_DAY = 60000;
+// const MILLISECOND_IN_DAY = 30000;
 let count = 0;
 let job_length = 0;
 let api_key = process.env.api_key;
