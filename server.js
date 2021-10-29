@@ -13,6 +13,10 @@ let count = 0;
 let job_length = 0;
 let api_key = process.env.api_key;
 
+app.get('/', (req, res) => {
+    res.send("E-Mansion Scraper");
+})
+
 /**
  * Scrape page
  */
@@ -82,6 +86,6 @@ const saveJobs = async(data, callback) => {
         .catch(err => callback(err))
 }
 
-// getDataFromScrappedPage();
+getDataFromScrappedPage();
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`))
