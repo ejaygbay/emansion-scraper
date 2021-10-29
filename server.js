@@ -18,6 +18,11 @@ app.get('/', (req, res) => {
     res.send("E-Mansion Scraper");
 })
 
+app.get('/store/data', (req, res) => {
+    getDataFromScrappedPage();
+    res.send("Data is being stored");
+})
+
 /**
  * Scrape page
  */
@@ -87,6 +92,6 @@ const saveJobs = async(data, callback) => {
         .catch(err => callback(err))
 }
 
-getDataFromScrappedPage();
+// getDataFromScrappedPage();
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`))
