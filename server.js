@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 const { end } = require('cheerio/lib/api/traversing');
 require('dotenv').config();
 const EMANSION_DOMAIN = "https://www.emansion.gov.lr/";
-let API_URL = "https://job-seeking-api.herokuapp.com/";
+let API_URL = "https://job-seeking-api.herokuapp.com";
 const URL = EMANSION_DOMAIN + "2content_a.php?sub=82&related=30&third=82&pg=sp";
 const MILLISECOND_IN_DAY = 86400000;
 // const MILLISECOND_IN_DAY = 30000;
@@ -18,10 +18,10 @@ app.get('/', (req, res) => {
     res.send("E-Mansion Scraper");
 })
 
-app.get('/store/data', (req, res) => {
-    getDataFromScrappedPage();
-    res.send("Data is being stored");
-})
+// app.get('/store/data', (req, res) => {
+//     getDataFromScrappedPage();
+//     res.send("Data is being stored");
+// })
 
 /**
  * Scrape page
@@ -72,7 +72,7 @@ const handleDocument = (jobs) => {
 
         saveJobs(data_to_send, (result) => {
             console.log(count, "========================================");
-            console.log(result.data);
+            console.log(result);
             count += 1;
             handleDocument(jobs);
         });
@@ -92,6 +92,6 @@ const saveJobs = async(data, callback) => {
         .catch(err => callback(err))
 }
 
-// getDataFromScrappedPage();
+getDataFromScrappedPage();
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`))
