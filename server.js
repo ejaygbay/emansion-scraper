@@ -6,6 +6,7 @@ const cheerio = require('cheerio');
 const { end } = require('cheerio/lib/api/traversing');
 require('dotenv').config();
 const EMANSION_DOMAIN = "https://www.emansion.gov.lr/";
+let API_URL = "https://job-seeking-api.herokuapp.com/";
 const URL = EMANSION_DOMAIN + "2content_a.php?sub=82&related=30&third=82&pg=sp";
 const MILLISECOND_IN_DAY = 86400000;
 // const MILLISECOND_IN_DAY = 60000;
@@ -77,7 +78,7 @@ const handleDocument = (jobs) => {
  * Make API request to save information scrapped
  */
 const saveJobs = async(data, callback) => {
-    await axios.post(`http://localhost:3001/v1/jobs?api_key=${api_key}`, {
+    await axios.post(`${API_URL}/v1/jobs?api_key=${api_key}`, {
             title: data.title,
             job_link: data.job_link,
             end_date: data.end_date
