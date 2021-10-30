@@ -15,6 +15,7 @@ let job_length = 0;
 let api_key = process.env.api_key;
 
 app.get('/', (req, res) => {
+    getDataFromScrappedPage();
     res.send("E-Mansion Scraper");
 })
 
