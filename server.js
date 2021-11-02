@@ -6,7 +6,8 @@ const cheerio = require('cheerio');
 const { end } = require('cheerio/lib/api/traversing');
 require('dotenv').config();
 const EMANSION_DOMAIN = "https://www.emansion.gov.lr/";
-let API_URL = "https://job-seeking-api.herokuapp.com";
+let REMOTE_API_URL = "https://job-seeking-api.herokuapp.com";
+let LOCAL_API_URL = `http://localhost:3001`;
 const URL = EMANSION_DOMAIN + "2content_a.php?sub=82&related=30&third=82&pg=sp";
 const MILLISECOND_IN_DAY = 86400000;
 // const MILLISECOND_IN_DAY = 30000;
@@ -59,16 +60,16 @@ const getDataFromScrappedPage = async() => {
  * Get sepcific data
  * Make API call(s) to save the data
  */
-const handleDocument = (jobs) => {
+const handleDocument = async(jobs) => {
     if (count < job_length) {
         let job_title = jobs[count].children[1].children[0].data;
         let job_link = EMANSION_DOMAIN + jobs[count].children[1].attribs.href;
         let closing_date = jobs[count].children[3].children[0].data.split(":")[1].trim();
-
+        let new_date = await extractDate(closing_date);
         let data_to_send = {
             title: job_title.trim(),
             job_link: job_link,
-            end_date: closing_date.trim()
+            end_date: new_date.trim()
         }
 
         saveJobs(data_to_send, (result) => {
@@ -81,16 +82,49 @@ const handleDocument = (jobs) => {
 }
 
 /**
+ * Extract date from string and set new format
+ * Date Format: 2021-11-02
+ */
+const extractDate = (date_str) => {
+    let months = {
+        january: '01',
+        february: '02',
+        march: '03',
+        april: '04',
+        may: '05',
+        june: '06',
+        july: '07',
+        august: '08',
+        september: '09',
+        october: '10',
+        november: '11',
+        december: '12'
+    }
+    let splited_date = date_str.split(" ");
+    let year = splited_date[2];
+    let month = months[splited_date[1].toLowerCase()];
+    let day = splited_date[0];
+    let days_ending = ['st', 'nd', 'rd', 'th'];
+
+    for (abbrev of days_ending) {
+        day = day.replace(abbrev, '');
+    }
+
+    let new_date = `${year}-${month}-${day}`;
+    return new_date;
+}
+
+/**
  * Make API request to save information scrapped
  */
 const saveJobs = async(data, callback) => {
-    await axios.post(`${API_URL}/v1/jobs?api_key=${api_key}`, {
+    await axios.post(`${LOCAL_API_URL}/v1/jobs?api_key=${api_key}`, {
             title: data.title,
             job_link: data.job_link,
             end_date: data.end_date
         })
-        .then(suc => callback(suc))
-        .catch(err => callback(err))
+        .then(suc => callback(suc.data))
+        .catch(err => callback(err.data))
 }
 
 getDataFromScrappedPage();
